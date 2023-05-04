@@ -1,70 +1,17 @@
-# Getting Started with Create React App
+//스터디 워치 만들가
+//useRef를 사용해서 타이머 시작하고 끄기
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+1. useState
 
-## Available Scripts
+2. useRef
+   current속성을 가지고 있는 객체를 반환하는데,인자로 넘어온 초기값을 current속성에 할당한다. current속성은 값을 변경해도 state를 변경할 때처럼 컴포넌트가 다시 렌더링되지 않는다. 컴포넌트가 다시 렌더링될때도 마찬가지로 이 current 속성의 값의 유실되지 않는다. 컴포넌트가 렌더링이 필요하지 않은 상태에서 그 속성에 접근해야 하거나, 또는 어떠한 Dom에 접근해야 할때 useRef를 사용하면 좋다.
 
-In the project directory, you can run:
+3. useCallback
+   특정 함수를 재사용하고 싶을 때 사용한다. 함수들은 렌더링될때 마다 새로 만들어지며, 이는 효율성을 저하시킨다.나중에 props가 바뀌지 않으면 DOM에 새로 렌더링을 하지 않는 작업을 하기 위해서는 함수를 재사용해야 한다.
+   한 파일에서 callback함수로 만든 함수를 다른 파일에서 props로 전달받아 사용할 수 있다.
+4. useMemo
 
-### `npm start`
+5. React.memo
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+6. useEffect
+   useEffect는 hook을 사용해서 컴포넌트가 마운트 됐을 때, 언마운트 됐을 때, 업데이트 될때(특정 props이 바뀔때) 특정작업을 하도록 도와주는 hook 함수입니다.
