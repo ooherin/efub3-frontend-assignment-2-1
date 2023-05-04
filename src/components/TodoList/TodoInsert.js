@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from "react";
-import styled from "styled-components";
+import S from "./style";
+
 const TodoInsert = ({ onInsert }) => {
   const [value, setValue] = useState("");
 
@@ -21,19 +22,9 @@ const TodoInsert = ({ onInsert }) => {
   );
   return (
     <form onSubmit={onSubmit}>
-      <Input placeholder="할 일 입력" value={value} onChange={onChange} />
-      <Button type="submit">+</Button>
+      <S.Input placeholder="할 일 입력" value={value} onChange={onChange} />
+      <S.AddButton type="submit">+</S.AddButton>
     </form>
   );
 };
 export default TodoInsert;
-
-const Input = styled.input`
-  width: 400px;
-  height: 50px;
-`;
-
-const Button = styled.button`
-  width: 50px;
-  height: 50px;
-`;

@@ -1,20 +1,31 @@
 import React, { useState, useRef, useEffect } from "react";
-import styled from "styled-components";
+import S from "./style";
+import TimeSum from "./TimeSum";
 const Counter = () => {
   const [count, setCount] = useState(0);
   const [currentSecond, setCurrentSecond] = useState(0);
   const [currentHour, setCurrentHour] = useState(0);
   const [currentMinute, setCurrentMinute] = useState(0);
   const [saveTime, setSaveTime] = useState([]);
+  const [text, setText] = useState({});
 
   const spendTime = useRef(null);
   const currentTime = useRef();
+  const textInput = useRef();
 
   const onClickSaveTime = () => {
     console.log(currentTime.current);
-    const nowTime = currentTime.current.innerText;
-    setSaveTime([...saveTime, nowTime]);
+    setText({ time: currentTime.current.innerText });
+    // setSaveTime([...saveTime, nowTime]);
+    textInput.current.focus();
   };
+
+  const onClickTextSave = () => {
+    const newTime = { ...text, text: textInput.current.value };
+    setText(newTime);
+    setSaveTime([...saveTime, newTime]);
+  };
+
   const startCounter = () => {
     spendTime.current = setInterval(() => {
       setCount((count) => count + 1);
@@ -60,33 +71,32 @@ const Counter = () => {
   }, [count]);
 
   return (
-    <>
-      <p>타이머</p>
-      <button onClick={startCounter}>시작</button>
-      <button onClick={endCounter}>정지</button>
-      <button onClick={resetCounter}>초기화</button>
-      <button onClick={onClickSaveTime}>저장</button>
-      <Clock ref={currentTime}>
-        {currentHour}:{currentMinute}:{currentSecond}
-      </Clock>
-      <SaveTimeContainer>
-        {saveTime.map((time) => {
-          return <div>{time}</div>;
-        })}
-      </SaveTimeContainer>
-    </>
+    <div>
+      <S.Wrapper>
+        <S.Title>타이머</S.Title>
+        <S.Timer ref={currentTime}>
+          {currentHour}:{currentMinute}:{currentSecond}
+        </S.Timer>
+        <S.Button onClick={startCounter}>시작</S.Button>
+        <S.Button onClick={endCounter}>정지</S.Button>
+        <S.Button onClick={resetCounter}>초기화</S.Button>
+        <S.Button onClick={onClickSaveTime}>저장</S.Button>
+        <S.SaveTimeContainer>
+          {saveTime.map((time) => {
+            return (
+              <S.SaveTime>
+                <span>{time.text}</span>
+                <span>{time.time}</span>
+              </S.SaveTime>
+            );
+          })}
+        </S.SaveTimeContainer>
+        <S.Input ref={textInput} placeholder="공부명 입력" />
+        <S.Button onClick={onClickTextSave}>저장</S.Button>
+      </S.Wrapper>
+      <TimeSum saveTime={saveTime} />
+    </div>
   );
 };
 
 export default Counter;
-
-const Clock = styled.div`
-  font-size: 30px;
-  font-weight: 500;
-`;
-
-const SaveTimeContainer = styled.div`
-  width: 500px;
-  height: 300px;
-  background-color: pink;
-`;
