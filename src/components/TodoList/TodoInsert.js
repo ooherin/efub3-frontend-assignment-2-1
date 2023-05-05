@@ -9,12 +9,12 @@ const TodoInsert = ({ onInsert }) => {
     setValue(e.target.value);
   }, []);
 
-  //
+  //저장버튼 눌렀을 때 실행되는 함수
   const onSubmit = useCallback(
     (e) => {
       //가져온 useCallback함수인 onInsert에 value값을 넣음
       onInsert(value);
-      //Value의 값을 비어줌
+      //Value의 값을 비워줌
       setValue("");
       e.preventDefault();
     },

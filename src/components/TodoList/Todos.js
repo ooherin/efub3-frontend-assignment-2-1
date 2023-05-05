@@ -1,45 +1,35 @@
-import styled from "styled-components";
 import S from "./style";
-const Todos = ({ todos, onDelete }) => {
+//todos와 useCallback함수인 onDelete, onToggle을 가져옴
+
+const Todos = ({ todos, onDelete, onToggle }) => {
   return (
     <S.Wrapper>
       {todos.map((todo, index) => (
-        <div>
-          <S.Todo>{index + 1}</S.Todo>
-          <S.Todo>{todo.text}</S.Todo>
+        //todo의 checked라는 속성을 styled component인 Todo로 넘김
+        <S.Todo key={todo.id} checked={todo.checked}>
+          <S.Text>
+            {index + 1}. {todo.text}
+          </S.Text>
           {/*props로 받은 onDelete함수를 받아서 실행시킴*/}
-          <S.DeleteButton
-            onClick={() => {
-              onDelete(todo.id);
-            }}
-          >
-            삭제
-          </S.DeleteButton>
-        </div>
+          <S.ButtonContainer>
+            <button
+              onClick={() => {
+                onToggle(todo.id);
+              }}
+            >
+              확인
+            </button>
+            <button
+              onClick={() => {
+                onDelete(todo.id);
+              }}
+            >
+              삭제
+            </button>
+          </S.ButtonContainer>
+        </S.Todo>
       ))}
     </S.Wrapper>
   );
 };
 export default Todos;
-
-const Wrapper = styled.div`
-  background-color: skyblue;
-  width: 450px;
-  font-size: 20px;
-  position: relative;
-`;
-const Button = styled.button`
-  width: 100px;
-  height: 50px;
-  position: absolute;
-  right: 0;
-`;
-
-const Todo = styled.div`
-  background-color: green;
-  font-size: 25px;
-  padding-top: 10px;
-  height: 50px;
-  display: inline-block;
-  position: relative;
-`;

@@ -8,6 +8,7 @@ const Counter = () => {
   const [currentMinute, setCurrentMinute] = useState(0);
   const [saveTime, setSaveTime] = useState([]);
   const [text, setText] = useState({});
+  const [countPlay, setCountPlay] = useState(false);
 
   const spendTime = useRef(null);
   const currentTime = useRef();
@@ -16,7 +17,6 @@ const Counter = () => {
   const onClickSaveTime = () => {
     console.log(currentTime.current);
     setText({ time: currentTime.current.innerText });
-    // setSaveTime([...saveTime, nowTime]);
     textInput.current.focus();
   };
 
@@ -27,13 +27,18 @@ const Counter = () => {
   };
 
   const startCounter = () => {
-    spendTime.current = setInterval(() => {
-      setCount((count) => count + 1);
-    }, 1000);
+    setCountPlay(!countPlay);
+    if (countPlay === true) {
+      spendTime.current = setInterval(() => {
+        setCount((count) => count + 1);
+      }, 1000);
+    }
   };
 
   const endCounter = () => {
     clearInterval(spendTime.current);
+    //countPlay상태를 false로 바꿔줌
+    setCountPlay(!countPlay);
   };
 
   const resetCounter = () => {
@@ -77,24 +82,30 @@ const Counter = () => {
         <S.Timer ref={currentTime}>
           {currentHour}:{currentMinute}:{currentSecond}
         </S.Timer>
-        <S.Button onClick={startCounter}>시작</S.Button>
-        <S.Button onClick={endCounter}>정지</S.Button>
-        <S.Button onClick={resetCounter}>초기화</S.Button>
-        <S.Button onClick={onClickSaveTime}>저장</S.Button>
+        <S.ButtonContainer>
+          <S.Button onClick={startCounter}>시작</S.Button>
+          <S.Button onClick={endCounter}>정지</S.Button>
+          <S.Button onClick={resetCounter}>초기화</S.Button>
+          <S.Button onClick={onClickSaveTime}>저장</S.Button>
+        </S.ButtonContainer>
         <S.SaveTimeContainer>
           {saveTime.map((time) => {
             return (
               <S.SaveTime>
-                <span>{time.text}</span>
-                <span>{time.time}</span>
+                <div>{time.text}</div>
+                <div>{time.time}</div>
               </S.SaveTime>
             );
           })}
         </S.SaveTimeContainer>
-        <S.Input ref={textInput} placeholder="공부명 입력" />
-        <S.Button onClick={onClickTextSave}>저장</S.Button>
+        <S.SaveContainer>
+          <S.Input ref={textInput} placeholder="공부명 입력" />
+          <S.Button onClick={onClickTextSave}>저장</S.Button>
+        </S.SaveContainer>
+        <S.TotalTime>
+          <TimeSum saveTime={saveTime} />
+        </S.TotalTime>
       </S.Wrapper>
-      <TimeSum saveTime={saveTime} />
     </div>
   );
 };

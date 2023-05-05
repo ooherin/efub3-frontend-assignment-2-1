@@ -1,5 +1,5 @@
 import "./App.css";
-import Counter from "./components/Timer/Timer";
+import Counter from "./components/Timer";
 import TodoList from "./components/TodoList";
 import styled from "styled-components";
 function App() {
