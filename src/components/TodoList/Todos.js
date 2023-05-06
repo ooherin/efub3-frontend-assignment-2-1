@@ -1,6 +1,9 @@
 import S from "./style";
 //todos와 useCallback함수인 onDelete, onToggle을 가져옴
+import { AiOutlineCheck, AiOutlineDelete } from "react-icons/ai";
 
+//Todos는 실제로 todo들을 렌더링 해주는 함수
+//index.js에서 onDelete와 onToggle을 받아와서 실행함
 const Todos = ({ todos, onDelete, onToggle }) => {
   return (
     <S.Wrapper>
@@ -12,20 +15,20 @@ const Todos = ({ todos, onDelete, onToggle }) => {
           </S.Text>
           {/*props로 받은 onDelete함수를 받아서 실행시킴*/}
           <S.ButtonContainer>
-            <button
+            {/*체크기능*/}
+            <AiOutlineCheck
+              style={{ fontSize: "32px", color: "blue" }}
               onClick={() => {
                 onToggle(todo.id);
               }}
-            >
-              확인
-            </button>
-            <button
+            />
+            {/*삭제기능*/}
+            <AiOutlineDelete
+              style={{ fontSize: "32px", color: "red" }}
               onClick={() => {
                 onDelete(todo.id);
               }}
-            >
-              삭제
-            </button>
+            />
           </S.ButtonContainer>
         </S.Todo>
       ))}

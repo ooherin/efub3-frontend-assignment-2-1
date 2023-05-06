@@ -1,14 +1,16 @@
 import styled from "styled-components";
 
 const Wrapper = styled.div`
-  background-color: yellowgreen;
+  border: 5px solid yellowgreen;
+  border-radius: 30px;
   display: flex;
   flex-direction: column;
   width: 500px;
+  height: 720px;
 `;
 
 const Title = styled.div`
-  height: 50px;
+  height: 30px;
   font-size: 40px;
   margin: 0 auto;
   margin-bottom: 20px;
@@ -26,15 +28,17 @@ const Timer = styled.div`
   background-color: white;
 `;
 const ButtonContainer = styled.div`
+  padding-top: 20px;
   display: flex;
   margin: 0 auto;
+  width: 300px;
+  justify-content: space-around;
 `;
 
 const SaveTimeContainer = styled.div`
   width: 500px;
   height: 400px;
-  background-color: pink;
-  margin: 0 auto;
+  background-color: #f1f8e0;
   border-radius: 20px;
   margin-bottom: 20px;
   padding-top: 20px;
@@ -57,28 +61,39 @@ const Button = styled.button`
 const Input = styled.input`
   width: 400px;
   height: 50px;
-`;
-
-const SumContainer = styled.div`
-  width: 500px;
-  height: 50px;
-  background-color: yellowgreen;
-  font-size: 30px;
+  font-size: 20px;
 `;
 
 const SaveContainer = styled.div`
   display: flex;
 `;
 
-const TotalTime = styled.div`
-  background-color: yellow;
+// const TotalTime = styled.div`
+//   background-color: #f3ef79;
+//   padding-left: 30px;
+//   width: 350px;
+//   height: 50px;
+//   font-size: 35px;
+//   font-weight: 500;
+//   border-radius: 20px;
+//   position: absolute;
+//   top: 70px;
+// `;
+
+const SumContainer = styled.div`
+  background-color: #f3ef79;
+  padding-left: 30px;
+  width: 350px;
   height: 50px;
-  font-size: 30px;
-  margin: 0 auto;
+  font-size: 35px;
+  font-weight: 500;
+  border-radius: 20px;
+  position: absolute;
+  top: -70px;
 `;
 
 const S = {
-  TotalTime,
+  SumContainer,
   SaveContainer,
   ButtonContainer,
   Title,
@@ -88,7 +103,7 @@ const S = {
   SaveTime,
   Input,
   Wrapper,
-  SumContainer,
+  // SumContainer,
 };
 
 export default S;

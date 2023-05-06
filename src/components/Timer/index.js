@@ -1,21 +1,30 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, memo } from "react";
 import S from "./style";
 import TimeSum from "./TimeSum";
+import {
+  BsFillPlayFill,
+  BsStopFill,
+  BsFillSkipBackwardFill,
+} from "react-icons/bs";
+import { GiSaveArrow } from "react-icons/gi";
+
 const Counter = () => {
+  //현재까지 카운트된 시간을 나타내는 상태변수. setInterval로 1초에 1씩 증가됨
   const [count, setCount] = useState(0);
   const [currentSecond, setCurrentSecond] = useState(0);
   const [currentHour, setCurrentHour] = useState(0);
   const [currentMinute, setCurrentMinute] = useState(0);
   const [saveTime, setSaveTime] = useState([]);
   const [text, setText] = useState({});
-  const [countPlay, setCountPlay] = useState(false);
+  const [timerPlay, setTimerPlay] = useState(true);
 
+  //spendTime은 setInterval에서 반환된 ID를 저장하고, clearInterval에서
+  //이 ID값을 참조해 타이머를 멈추고 시작할 수 있다.
   const spendTime = useRef(null);
   const currentTime = useRef();
   const textInput = useRef();
 
-  const onClickSaveTime = () => {
-    console.log(currentTime.current);
+  const onClickTimeSave = () => {
     setText({ time: currentTime.current.innerText });
     textInput.current.focus();
   };
@@ -24,29 +33,35 @@ const Counter = () => {
     const newTime = { ...text, text: textInput.current.value };
     setText(newTime);
     setSaveTime([...saveTime, newTime]);
+    textInput.current.value = "";
   };
 
   const startCounter = () => {
-    setCountPlay(!countPlay);
-    if (countPlay === true) {
+    setTimerPlay(!timerPlay);
+    //spendTime에 담긴 setInterval의 id값이 나중에 endCounter를
+    //눌렀을 때 clearInterval에 의해 없어짐
+    if (timerPlay === true) {
       spendTime.current = setInterval(() => {
         setCount((count) => count + 1);
       }, 1000);
     }
+    // console.log(spendTime.current);
   };
 
   const endCounter = () => {
     clearInterval(spendTime.current);
-    //countPlay상태를 false로 바꿔줌
-    setCountPlay(!countPlay);
+    //timerPlay상태를 false로 바꿔줌
+    setTimerPlay(!timerPlay);
   };
 
+  //모든 값을 초기화시켜주는 함수
   const resetCounter = () => {
     setCount(0);
     setCurrentSecond(0);
     setCurrentMinute(0);
     setCurrentHour(0);
     clearInterval(spendTime.current);
+    setTimerPlay(true);
   };
 
   //useEffect  :안에있는 updateTimer를 count가 바뀔때마다 실행시켜줌
@@ -77,16 +92,31 @@ const Counter = () => {
 
   return (
     <div>
+      <S.SumContainer>
+        <TimeSum saveTime={saveTime} />
+      </S.SumContainer>
       <S.Wrapper>
-        <S.Title>타이머</S.Title>
+        <S.Title>Timer</S.Title>
         <S.Timer ref={currentTime}>
           {currentHour}:{currentMinute}:{currentSecond}
         </S.Timer>
         <S.ButtonContainer>
-          <S.Button onClick={startCounter}>시작</S.Button>
-          <S.Button onClick={endCounter}>정지</S.Button>
-          <S.Button onClick={resetCounter}>초기화</S.Button>
-          <S.Button onClick={onClickSaveTime}>저장</S.Button>
+          <BsFillPlayFill
+            style={{ fontSize: "40px", color: "green" }}
+            onClick={startCounter}
+          />
+          <BsStopFill
+            style={{ fontSize: "38px", color: "green" }}
+            onClick={endCounter}
+          />
+          <BsFillSkipBackwardFill
+            style={{ fontSize: "32px", color: "green" }}
+            onClick={resetCounter}
+          />
+          <GiSaveArrow
+            style={{ fontSize: "32px", color: "green" }}
+            onClick={onClickTimeSave}
+          />
         </S.ButtonContainer>
         <S.SaveTimeContainer>
           {saveTime.map((time) => {
@@ -102,9 +132,6 @@ const Counter = () => {
           <S.Input ref={textInput} placeholder="공부명 입력" />
           <S.Button onClick={onClickTextSave}>저장</S.Button>
         </S.SaveContainer>
-        <S.TotalTime>
-          <TimeSum saveTime={saveTime} />
-        </S.TotalTime>
       </S.Wrapper>
     </div>
   );

@@ -21,24 +21,28 @@ const Text = styled.div`
 const Input = styled.input`
   width: 400px;
   height: 50px;
-  margin-top: 30px;
   margin-left: 20px;
+  font-size: 20px;
 `;
 
 const AddButton = styled.button`
   width: 50px;
   height: 50px;
+  font-size: 30px;
+  border: 0;
 `;
 
 const Todo = styled.div`
   color: ${(props) => (props.checked ? "gray" : "black")};
+  text-decoration: ${(props) => (props.checked ? "line-through" : "")};
   display: flex;
 `;
 
 const TodoList = styled.div`
   height: 720px;
-  background-color: orange;
   margin-right: 20px;
+  border: 5px solid orange;
+  border-radius: 30px;
 `;
 
 const CountContainer = styled.div`
@@ -49,6 +53,8 @@ const CountContainer = styled.div`
   z-index: 10;
   font-size: 30px;
   display: flex;
+  position: absolutes;
+  bottom: 10;
   div {
     margin-left: 20px;
     width: 150px;
@@ -63,14 +69,14 @@ const CountContainer = styled.div`
     background-color: green;
   }
   .uncompleted {
-    background-color: red;
+    background-color: #f36959;
   }
 `;
 
 const ButtonContainer = styled.div`
   height: 50px;
   position: absolute;
-  right: 0;
+  right: 20px;
   button {
     width: 80px;
     height: 50px;
@@ -79,7 +85,21 @@ const ButtonContainer = styled.div`
     border-radius: 20px;
   }
 `;
+const Title = styled.div`
+  height: 30px;
+  font-size: 40px;
+  margin-left: 170px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+`;
+
+const InsertForm = styled.form`
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+`;
 const S = {
+  Title,
   Wrapper,
   Text,
   Todo,
@@ -88,6 +108,7 @@ const S = {
   TodoList,
   CountContainer,
   ButtonContainer,
+  InsertForm,
 };
 
 export default S;

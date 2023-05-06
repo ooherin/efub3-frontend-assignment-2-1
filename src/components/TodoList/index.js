@@ -3,9 +3,9 @@ import TodoInsert from "./TodoInsert";
 import Todos from "./Todos";
 import S from "./style";
 import CountTodo from "./CountTodo";
+
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
-
   const nextId = useRef(4);
 
   //onInsert : 추가해주는 함수
@@ -47,11 +47,14 @@ const TodoList = () => {
   );
 
   return (
-    <S.TodoList>
-      <TodoInsert onInsert={onInsert} />
-      <Todos todos={todos} onDelete={onDelete} onToggle={onToggle} />
-      <CountTodo todos={todos} />
-    </S.TodoList>
+    <>
+      <S.TodoList>
+        <S.Title>Planner</S.Title>
+        <TodoInsert onInsert={onInsert} />
+        <Todos todos={todos} onDelete={onDelete} onToggle={onToggle} />
+        <CountTodo todos={todos} />
+      </S.TodoList>
+    </>
   );
 };
 
