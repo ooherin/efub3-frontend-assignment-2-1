@@ -1,9 +1,11 @@
 import { useMemo } from "react";
 import S from "./style";
 
+//todo들중 checked 속성을 t/f로 판단하여 완료/미완료한 todo를 세주는 기능을 하는 함수
+//기존의 값을 캐싱하기 위해 useMemo를 사용함
 const CountTodo = ({ todos }) => {
+  console.log("완료한 todo를 세는중...");
   const countTrueTodos = (todos) => {
-    console.log("완료한 todo를 세는중...");
     return todos.filter((todo) => todo.checked === true).length;
   };
 

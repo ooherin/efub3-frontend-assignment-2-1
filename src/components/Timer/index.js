@@ -22,6 +22,7 @@ const Counter = () => {
   //이 ID값을 참조해 타이머를 멈추고 시작할 수 있다.
   const spendTime = useRef(null);
   const currentTime = useRef();
+  //132번쨰 줄 (dom접근)
   const textInput = useRef();
 
   const onClickTimeSave = () => {
@@ -45,7 +46,7 @@ const Counter = () => {
         setCount((count) => count + 1);
       }, 1000);
     }
-    // console.log(spendTime.current);
+    console.log(spendTime.current);
   };
 
   const endCounter = () => {
@@ -119,9 +120,9 @@ const Counter = () => {
           />
         </S.ButtonContainer>
         <S.SaveTimeContainer>
-          {saveTime.map((time) => {
+          {saveTime.map((time, index) => {
             return (
-              <S.SaveTime>
+              <S.SaveTime key={time.time + index}>
                 <div>{time.text}</div>
                 <div>{time.time}</div>
               </S.SaveTime>
