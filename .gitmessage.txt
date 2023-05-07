@@ -21,4 +21,8 @@
 # 꼬릿말(footer)을 아랫줄에 작성 (현재 커밋과 관련된 이슈 번호 추가 등)
 # 예) Close #7
 
+commit 
+i => 입력모드 => delete insert 가능
+esc => 입력모드 나가기
+: wq => 편집 , wq 는 저장후 나가기
 

@@ -33,6 +33,9 @@ const ButtonContainer = styled.div`
   margin: 0 auto;
   width: 300px;
   justify-content: space-around;
+  & > *:hover {
+    transform: scale(1.1);
+  }
 `;
 
 const SaveTimeContainer = styled.div`
@@ -68,18 +71,6 @@ const SaveContainer = styled.div`
   display: flex;
 `;
 
-// const TotalTime = styled.div`
-//   background-color: #f3ef79;
-//   padding-left: 30px;
-//   width: 350px;
-//   height: 50px;
-//   font-size: 35px;
-//   font-weight: 500;
-//   border-radius: 20px;
-//   position: absolute;
-//   top: 70px;
-// `;
-
 const SumContainer = styled.div`
   background-color: #f3ef79;
   padding-left: 30px;
@@ -103,7 +94,6 @@ const S = {
   SaveTime,
   Input,
   Wrapper,
-  // SumContainer,
 };
 
 export default S;

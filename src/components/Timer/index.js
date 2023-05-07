@@ -11,116 +11,121 @@ import { GiSaveArrow } from "react-icons/gi";
 const Counter = () => {
   //현재까지 카운트된 시간을 나타내는 상태변수. setInterval로 1초에 1씩 증가됨
   const [count, setCount] = useState(0);
-  const [currentSecond, setCurrentSecond] = useState(0);
-  const [currentHour, setCurrentHour] = useState(0);
-  const [currentMinute, setCurrentMinute] = useState(0);
+  //시간을 저장해주는 state, 배열에 각각 시간 : 분 : 초 를 계산해 넣어준다.
+  const [time, setTime] = useState([0, 0, 0]);
+  //총 공부시간을 구하기 위해 만들어준 state(시간 누적 합) => Timesum.js에 전달
   const [saveTime, setSaveTime] = useState([]);
-  const [text, setText] = useState({});
+  //렌더링 할 text를 저장해주는 state
+  const [timeList, setTimeList] = useState([]);
+  //현재 상태가 timer가 동작하는지 안하는지를 알려주는 states
   const [timerPlay, setTimerPlay] = useState(true);
 
   //spendTime은 setInterval에서 반환된 ID를 저장하고, clearInterval에서
   //이 ID값을 참조해 타이머를 멈추고 시작할 수 있다.
   const spendTime = useRef(null);
-  const currentTime = useRef();
   //132번쨰 줄 (dom접근)
   const textInput = useRef();
 
-  const onClickTimeSave = () => {
-    setText({ time: currentTime.current.innerText });
+  //onClickFocusMove : input으로 focus를 해주는 함수
+  //ref를 사용하여 공부명을 입력하는 input으로 포커스를 옮겨준다
+  const onClickFocusMove = () => {
+    if (!timerPlay) {
+      alert("타이머를 멈추고 저장하세요!");
+    }
     textInput.current.focus();
   };
 
-  const onClickTextSave = () => {
-    const newTime = { ...text, text: textInput.current.value };
-    setText(newTime);
-    setSaveTime([...saveTime, newTime]);
+  //onCLickListSave : 최종적으로 렌더링될 타임 list에 기존의 시간과, input에 적어준 text값을 저장한다.
+  //time이라는 key값으로 시간 : 분 : 초 순서대로 넣어준다.
+  //timer가 동작중이라면 타이머를 멈춰준다
+  const onCLickListSave = () => {
+    //timeList에 저장하기
+    const newTimeList = {
+      time: `${time[0]}:${time[1]}:${time[2]}`,
+      text: textInput.current.value,
+    };
+    setTimeList([...timeList, newTimeList]);
+    //input값 비워주기
     textInput.current.value = "";
   };
 
-  const startCounter = () => {
+  //onClickStartCounter : counter를 시작하는 함수
+  const onClickStartCounter = () => {
     setTimerPlay(!timerPlay);
-    //spendTime에 담긴 setInterval의 id값이 나중에 endCounter를
+    //spendTime에 담긴 setInterval의 id값이 나중에 onClickEndCounter를
     //눌렀을 때 clearInterval에 의해 없어짐
     if (timerPlay === true) {
       spendTime.current = setInterval(() => {
         setCount((count) => count + 1);
       }, 1000);
     }
-    console.log(spendTime.current);
   };
 
-  const endCounter = () => {
+  //onClickEndCounter: counter를 끝내주는 함수
+  const onClickEndCounter = () => {
     clearInterval(spendTime.current);
     //timerPlay상태를 false로 바꿔줌
     setTimerPlay(!timerPlay);
   };
 
-  //모든 값을 초기화시켜주는 함수
-  const resetCounter = () => {
+  //onClickResetCounter: 모든 값을 초기화시켜주는 함수
+  //counter를 0으로 바꿔준다
+  //만약 play상태에서 눌러지면 play를 false로 바꿔준다음 실행시킨다.
+  const onClickResetCounter = () => {
     setCount(0);
-    setCurrentSecond(0);
-    setCurrentMinute(0);
-    setCurrentHour(0);
     clearInterval(spendTime.current);
     setTimerPlay(true);
   };
 
-  //useEffect  :안에있는 updateTimer를 count가 바뀔때마다 실행시켜줌
-  //updateTimer함수는 count상태값을 사용하여 시간,분,초를 계산하고, 이를
-  //이용해 currentSecond, currentHour, currentMinute의 상태를 바꿔준다.
+  //count가 변할때마다 시간, 분, 초를 계산해서 setTime에 넣어주는 함수를 실행한다.
+  //10미만이면 앞에 0을 붙여 형식을 맞춰준다.
   useEffect(() => {
-    const updateTimer = () => {
-      const checkMinutes = Math.floor(count / 60);
-      let minutes = checkMinutes % 60;
-      let hours = Math.floor(count / 3600);
-      let seconds = count % 60;
-      {
-        if (seconds < 10) {
-          seconds = "0" + seconds;
-        }
+    let hour = Math.floor(count / 60) % 60;
+    let minute = Math.floor(count / 3600);
+    let second = count % 60;
+    {
+      if (second < 10) {
+        second = "0" + second;
       }
-      {
-        if (minutes < 10) {
-          minutes = "0" + minutes;
-        }
+    }
+    {
+      if (minute < 10) {
+        minute = "0" + minute;
       }
-      setCurrentSecond(seconds);
-      setCurrentHour(hours);
-      setCurrentMinute(minutes);
-    };
-    updateTimer();
+    }
+    setTime([hour, minute, second]);
   }, [count]);
 
   return (
     <div>
       <S.SumContainer>
-        <TimeSum saveTime={saveTime} />
+        <TimeSum timeList={timeList} />
       </S.SumContainer>
       <S.Wrapper>
         <S.Title>Timer</S.Title>
-        <S.Timer ref={currentTime}>
-          {currentHour}:{currentMinute}:{currentSecond}
+        <S.Timer>
+          {time[0]}:{time[1]}:{time[2]}
         </S.Timer>
         <S.ButtonContainer>
           <BsFillPlayFill
             style={{ fontSize: "40px", color: "green" }}
-            onClick={startCounter}
+            onClick={onClickStartCounter}
           />
           <BsStopFill
             style={{ fontSize: "38px", color: "green" }}
-            onClick={endCounter}
+            onClick={onClickEndCounter}
           />
           <BsFillSkipBackwardFill
             style={{ fontSize: "32px", color: "green" }}
-            onClick={resetCounter}
+            onClick={onClickResetCounter}
           />
           <GiSaveArrow
             style={{ fontSize: "32px", color: "green" }}
-            onClick={onClickTimeSave}
+            onClick={onClickFocusMove}
           />
         </S.ButtonContainer>
         <S.SaveTimeContainer>
-          {saveTime.map((time, index) => {
+          {timeList.map((time, index) => {
             return (
               <S.SaveTime key={time.time + index}>
                 <div>{time.text}</div>
@@ -131,7 +136,7 @@ const Counter = () => {
         </S.SaveTimeContainer>
         <S.SaveContainer>
           <S.Input ref={textInput} placeholder="공부명 입력" />
-          <S.Button onClick={onClickTextSave}>저장</S.Button>
+          <S.Button onClick={onCLickListSave}>저장</S.Button>
         </S.SaveContainer>
       </S.Wrapper>
     </div>
