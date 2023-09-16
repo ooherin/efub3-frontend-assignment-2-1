@@ -7,17 +7,18 @@ import {
   BsFillSkipBackwardFill,
 } from "react-icons/bs";
 import { GiSaveArrow } from "react-icons/gi";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { timerSlice } from "../reducer/timer";
 
 const Counter = () => {
   //현재까지 카운트된 시간을 나타내는 상태변수. setInterval로 1초에 1씩 증가됨
   const [count, setCount] = useState(0);
   //시간을 저장해주는 state, 배열에 각각 시간 : 분 : 초 를 계산해 넣어준다.
   const [time, setTime] = useState([0, 0, 0]);
-  //총 공부시간을 구하기 위해 만들어준 state(시간 누적 합) => Timesum.js에 전달
-  const [saveTime, setSaveTime] = useState([]);
+  const timerList = useSelector((state) => state.timer);
+
   //렌더링 할 text를 저장해주는 state
-  const [timeList, setTimeList] = useState([]);
-  //현재 상태가 timer가 동작하는지 안하는지를 알려주는 states
   const [timerPlay, setTimerPlay] = useState(true);
 
   //spendTime은 setInterval에서 반환된 ID를 저장하고, clearInterval에서
@@ -27,7 +28,6 @@ const Counter = () => {
   const textInput = useRef();
 
   //onClickFocusMove : input으로 focus를 해주는 함수
-  //ref를 사용하여 공부명을 입력하는 input으로 포커스를 옮겨준다
   const onClickFocusMove = () => {
     if (!timerPlay) {
       alert("타이머를 멈추고 저장하세요!");
@@ -35,6 +35,7 @@ const Counter = () => {
     textInput.current.focus();
   };
 
+  const dispatch = useDispatch();
   //onCLickListSave : 최종적으로 렌더링될 타임 list에 기존의 시간과, input에 적어준 text값을 저장한다.
   //time이라는 key값으로 시간 : 분 : 초 순서대로 넣어준다.
   //timer가 동작중이라면 타이머를 멈춰준다
@@ -44,16 +45,14 @@ const Counter = () => {
       time: `${time[0]}:${time[1]}:${time[2]}`,
       text: textInput.current.value,
     };
-    setTimeList([...timeList, newTimeList]);
-    //input값 비워주기
+    dispatch(timerSlice.actions.addTimer(newTimeList));
     textInput.current.value = "";
   };
 
   //onClickStartCounter : counter를 시작하는 함수
   const onClickStartCounter = () => {
     setTimerPlay(!timerPlay);
-    //spendTime에 담긴 setInterval의 id값이 나중에 onClickEndCounter를
-    //눌렀을 때 clearInterval에 의해 없어짐
+
     if (timerPlay === true) {
       spendTime.current = setInterval(() => {
         setCount((count) => count + 1);
@@ -83,15 +82,13 @@ const Counter = () => {
     let hour = Math.floor(count / 60) % 60;
     let minute = Math.floor(count / 3600);
     let second = count % 60;
-    {
-      if (second < 10) {
-        second = "0" + second;
-      }
+
+    if (second < 10) {
+      second = "0" + second;
     }
-    {
-      if (minute < 10) {
-        minute = "0" + minute;
-      }
+
+    if (minute < 10) {
+      minute = "0" + minute;
     }
     setTime([hour, minute, second]);
   }, [count]);
@@ -99,7 +96,7 @@ const Counter = () => {
   return (
     <div>
       <S.SumContainer>
-        <TimeSum timeList={timeList} />
+        <TimeSum />
       </S.SumContainer>
       <S.Wrapper>
         <S.Title>Timer</S.Title>
@@ -125,9 +122,9 @@ const Counter = () => {
           />
         </S.ButtonContainer>
         <S.SaveTimeContainer>
-          {timeList.map((time, index) => {
+          {timerList.map((time) => {
             return (
-              <S.SaveTime key={time.time + index}>
+              <S.SaveTime key={Math.floor(Math.random() * 1000)}>
                 <div>{time.text}</div>
                 <div>{time.time}</div>
               </S.SaveTime>

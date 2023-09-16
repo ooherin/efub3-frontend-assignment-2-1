@@ -98,6 +98,21 @@ const InsertForm = styled.form`
   justify-content: center;
   margin-top: 40px;
 `;
+
+const TitleContainer = styled.div`
+  display: flex;
+  align-items: center;
+
+  padding-left: 30px;
+  width: 350px;
+  height: 50px;
+  font-size: 35px;
+  font-weight: 500;
+  border-radius: 20px;
+  position: absolute;
+  top: -70px;
+`;
+
 const S = {
   Title,
   Wrapper,
@@ -109,6 +124,7 @@ const S = {
   CountContainer,
   ButtonContainer,
   InsertForm,
+  TitleContainer,
 };
 
 export default S;

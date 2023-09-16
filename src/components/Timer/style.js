@@ -56,23 +56,36 @@ const SaveTime = styled.div`
   justify-content: space-between;
 `;
 const Button = styled.button`
-  width: 100px;
+  width: 80px;
   height: 50px;
   font-size: 20px;
+  font-weight: 700;
+  background-color: green;
+  color: white;
+  border: none;
+  border-radius: 10px;
 `;
 
 const Input = styled.input`
-  width: 400px;
+  width: 350px;
   height: 50px;
   font-size: 20px;
+  border: 2px solid #999;
 `;
 
 const SaveContainer = styled.div`
   display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
 `;
 
 const SumContainer = styled.div`
   background-color: #f3ef79;
+
+  display: flex;
+  align-items: center;
+
   padding-left: 30px;
   width: 350px;
   height: 50px;
